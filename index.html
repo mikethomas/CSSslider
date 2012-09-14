@@ -3,12 +3,69 @@
 <head>
 <meta charset="utf-8" />
 <title>CSS Slider</title>
+<script src="js/modernizr.js"></script>
+<style>
+body {
+	margin: 0;
+	padding: 0;
+}
+.slider {
+	width: 261px;
+	height: 193px;
+	overflow: hidden;
+	position: relative;
+	border: 5px solid #000;
+	margin: 30px auto 0;
+}
+.slider img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	-moz-transition: opacity 2s ease-in-out;;
+}
+.slider .show {
+	opacity: 1;
+}
+</style>
 </head>
 
 <body>
 	<div class="slider">
 		<img src="images/spider-man.jpg">
 		<img src="images/superman.jpg">
+		<img src="images/batman.jpg">
 	</div>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+	<script>
+		$(function() {
+			
+			var imgs = $('.slider img');
+			var curImg = 0;
+			var timer = 0;
+			var slideTime = 3000;
+
+			$(imgs[0]).addClass('show');
+
+			function slideShow() {
+				if (timer < slideTime) {
+					timer += 10;
+				} else if (timer <= slideTime) {
+					if (curImg < imgs.length - 1) {
+						$(imgs[curImg]).removeClass('show');
+						curImg += 1;
+						$(imgs[curImg]).addClass('show');
+					} else {
+						$(imgs[curImg]).removeClass('show');
+						curImg = 0;
+						$(imgs[curImg]).addClass('show');
+					}
+					timer = 0;
+				}
+			}
+			setInterval(slideShow, 20);
+
+		});
+	</script>
 </body>
 </html>
