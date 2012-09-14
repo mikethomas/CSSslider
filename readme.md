@@ -1,0 +1,1 @@
+Slider that uses CSS transitions if the browser supports them
