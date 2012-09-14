@@ -22,7 +22,13 @@ body {
 	top: 0;
 	left: 0;
 	opacity: 0;
-	-moz-transition: opacity 2s ease-in-out;;
+}
+.csstransitions .slider img {
+	-webkit-transition: opacity 2s ease-in-out;
+	-moz-transition: opacity 2s ease-in-out;
+	-ms-transition: opacity 2s ease-in-out;
+	-o-transition: opacity 2s ease-in-out;
+	transition: opacity 2s ease-in-out;
 }
 .slider .show {
 	opacity: 1;
@@ -40,17 +46,25 @@ body {
 	<script>
 		$(function() {
 			
+			var slider = $('.slider');
 			var imgs = $('.slider img');
 			var curImg = 0;
 			var timer = 0;
 			var slideTime = 3000;
 
-			$(imgs[0]).addClass('show');
+			if ($('html').hasClass('no-opacity')) {
+				for (var i = 0; i < imgs.length; i++) {
+					$(imgs[i]).css('opacity', '0');
+				}
+				$(imgs[0]).css('opacity','1');
+			} else {
+				$(imgs[0]).addClass('show');
+			}
 
-			function slideShow() {
+			function slideShowCSS() {
 				if (timer < slideTime) {
 					timer += 10;
-				} else if (timer <= slideTime) {
+				} else if (timer >= slideTime) {
 					if (curImg < imgs.length - 1) {
 						$(imgs[curImg]).removeClass('show');
 						curImg += 1;
@@ -63,7 +77,29 @@ body {
 					timer = 0;
 				}
 			}
-			setInterval(slideShow, 20);
+
+			function slideShowjQuery() {
+				if (timer < slideTime) {
+					timer += 10;
+				} else if (timer >= slideTime) {
+					if (curImg < imgs.length - 1) {
+						$(imgs[curImg]).animate({'opacity': '0'}, slideTime);
+						curImg += 1;
+						$(imgs[curImg]).animate({'opacity': '1'}, slideTime);
+					} else {
+						$(imgs[curImg]).animate({'opacity': '0'}, slideTime);
+						curImg = 0;
+						$(imgs[curImg]).animate({'opacity': '1'}, slideTime);
+					}
+					timer = 0;
+				}
+			}
+
+			if ($('html').hasClass('csstransitions')) {
+				setInterval(slideShowCSS, 20);
+			} else if ($('html').hasClass('no-csstransitions')) {
+				setInterval(slideShowjQuery, 20);
+			}
 
 		});
 	</script>
