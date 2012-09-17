@@ -1,10 +1,14 @@
 var Slider = function(s, t) {
-			
+
 	var slider = $(s);
 	var imgs = $(s + ' img');
 	var curImg = 0;
 	var timer = 0;
 	var slideTime = (t) ? t : 3000;
+	var fgb = $(imgs[0]).attr('src');
+	var firstFade = true;
+
+	slider.css('background','url(' + fgb + ')');
 
 	if ($('html').hasClass('no-opacity')) {
 		for (var i = 0; i < imgs.length; i++) {
@@ -23,6 +27,10 @@ var Slider = function(s, t) {
 				$(imgs[curImg]).removeClass('show');
 				curImg += 1;
 				$(imgs[curImg]).addClass('show');
+				if (firstFade === true) {
+					slider.css('background','');
+					firstFade = false;
+				}
 			} else {
 				$(imgs[curImg]).removeClass('show');
 				curImg = 0;
