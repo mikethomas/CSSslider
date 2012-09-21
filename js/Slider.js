@@ -48,6 +48,10 @@ var Slider = function(s, t) {
 				$(imgs[curImg]).animate({'opacity': '0'}, slideTime);
 				curImg += 1;
 				$(imgs[curImg]).animate({'opacity': '1'}, slideTime);
+				if (firstFade === true) {
+					slider.css('background','');
+					firstFade = false;
+				}
 			} else {
 				$(imgs[curImg]).animate({'opacity': '0'}, slideTime);
 				curImg = 0;
